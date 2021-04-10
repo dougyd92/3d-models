@@ -22,7 +22,7 @@ INSCRIPTION_DEPTH = 1;
 TOTAL_H = CUP_H + STEM_H + BASE_H;
 
 PROJECT_NAME = "PROJECT NAME";
-PROJECT_FONT_SIZE = BOX_SIZE*0.09;
+PROJECT_FONT_SIZE = BOX_SIZE*0.07;
 
 PARTICIPANT_1 = "One";
 PARTICIPANT_2 = "Two";
@@ -30,24 +30,25 @@ PARTICIPANT_3 = "Three";
 PARTICIPANT_4 = "Four";
 PARTICIPANT_5 = "Five";
 PARTICIPANT_6 = "Six";
+TOTAL_PARTICIPANTS = 6;
 MAX_PARTICIPANTS = 6;
 NAMES_FONT_SIZE = BOX_SIZE*0.08;
 
 CATEGORY_1 = "Category 1";
 CATEGORY_2 = "Category 2";
-CATEGORY_FONT_SIZE = BOX_SIZE*0.07;
+CATEGORY_FONT_SIZE = BOX_SIZE*0.06;
 
 HACKATHON_FONT_SIZE = BOX_SIZE*0.08;
 
-module inscribe_right(text, size, pos) {   
-    translate([BOX_SIZE - INSCRIPTION_DEPTH/2, BOX_SIZE/2, BOX_SIZE * (MAX_PARTICIPANTS + 2 - pos) / (MAX_PARTICIPANTS + 3)])
+module inscribe_right(text, size, pos, spacing) {
+    translate([BOX_SIZE - INSCRIPTION_DEPTH/2, BOX_SIZE/2, BOX_SIZE * (spacing + 2 - pos) / (spacing + 3)])
             rotate([90, 0, 90]) 
             linear_extrude(INSCRIPTION_DEPTH)  
             text(text, font = "Liberation Mono", size=size, halign="center", valign="center");
 }
 
-module inscribe_left(text, size, pos) {
-    translate([INSCRIPTION_DEPTH/2, BOX_SIZE/2, BOX_SIZE * (MAX_PARTICIPANTS + 2 - pos) / (MAX_PARTICIPANTS + 3)])
+module inscribe_left(text, size, pos, spacing) {
+    translate([INSCRIPTION_DEPTH/2, BOX_SIZE/2, BOX_SIZE * (spacing + 2 - pos) / (spacing + 3)])
             rotate([90, 0, -90]) 
             linear_extrude(INSCRIPTION_DEPTH)  
             text(text, font = "Liberation Mono", size=size, halign="center", valign="center");
@@ -62,23 +63,23 @@ module trophy_base() {
             linear_extrude(INSCRIPTION_DEPTH) 
             import("pro-codecademy-icon-48x48px.svg");
         
-        inscribe_right(PROJECT_NAME, PROJECT_FONT_SIZE, 0);
-        inscribe_right(PARTICIPANT_1, NAMES_FONT_SIZE, 2);
-        inscribe_right(PARTICIPANT_2, NAMES_FONT_SIZE, 3);
-        inscribe_right(PARTICIPANT_3, NAMES_FONT_SIZE, 4);
-        inscribe_right(PARTICIPANT_4, NAMES_FONT_SIZE, 5);
-        inscribe_right(PARTICIPANT_5, NAMES_FONT_SIZE, 6);
-        inscribe_right(PARTICIPANT_6, NAMES_FONT_SIZE, 7);
+        inscribe_right(PROJECT_NAME, PROJECT_FONT_SIZE, 0, MAX_PARTICIPANTS);
+        inscribe_right(PARTICIPANT_1, NAMES_FONT_SIZE, 2, TOTAL_PARTICIPANTS);
+        inscribe_right(PARTICIPANT_2, NAMES_FONT_SIZE, 3, TOTAL_PARTICIPANTS);
+        inscribe_right(PARTICIPANT_3, NAMES_FONT_SIZE, 4, TOTAL_PARTICIPANTS);
+        inscribe_right(PARTICIPANT_4, NAMES_FONT_SIZE, 5, TOTAL_PARTICIPANTS);
+        inscribe_right(PARTICIPANT_5, NAMES_FONT_SIZE, 6, TOTAL_PARTICIPANTS);
+        inscribe_right(PARTICIPANT_6, NAMES_FONT_SIZE, 7, TOTAL_PARTICIPANTS);
            
-        inscribe_left("Hackathon", HACKATHON_FONT_SIZE, 0);
-        inscribe_left("Spring 2021", HACKATHON_FONT_SIZE, 1);
+        inscribe_left("Hackathon", HACKATHON_FONT_SIZE, 0, 4);
+        inscribe_left("Spring 2021", HACKATHON_FONT_SIZE, 1, 4);
         if (CATEGORY_2) {
-            inscribe_left(CATEGORY_1, CATEGORY_FONT_SIZE, 5);
-            inscribe_left("+", CATEGORY_FONT_SIZE, 6);
-            inscribe_left(CATEGORY_2, CATEGORY_FONT_SIZE, 7);
+            inscribe_left(CATEGORY_1, CATEGORY_FONT_SIZE, 9, 10);
+            inscribe_left("+", CATEGORY_FONT_SIZE, 10, 10);
+            inscribe_left(CATEGORY_2, CATEGORY_FONT_SIZE, 11, 10);
         }
         else {
-            inscribe_left(CATEGORY_1, CATEGORY_FONT_SIZE, 7);
+            inscribe_left(CATEGORY_1, CATEGORY_FONT_SIZE, 7, 6);
         }
     }
 }  
@@ -107,7 +108,6 @@ module profile() {
         translate([-STEM_R, -CUP_H - STEM_H]) square([2*STEM_R,STEM_H]);
         translate([0, -CUP_H - STEM_H]) cup_base(BASE_R_TOP, BASE_R_BOT, BASE_H);
     }
-
 }
 
 module left_half() {
