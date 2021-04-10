@@ -21,7 +21,8 @@ INSCRIPTION_DEPTH = 1;
 
 TOTAL_H = CUP_H + STEM_H + BASE_H;
 
-PROJECT_NAME = "PROJECT NAME";
+PROJECT_NAME_1 = "PROJECT NAME";
+PROJECT_NAME_2 = "CONTINUED";
 PROJECT_FONT_SIZE = BOX_SIZE*0.07;
 
 PARTICIPANT_1 = "One";
@@ -63,7 +64,8 @@ module trophy_base() {
             linear_extrude(INSCRIPTION_DEPTH) 
             import("pro-codecademy-icon-48x48px.svg");
         
-        inscribe_right(PROJECT_NAME, PROJECT_FONT_SIZE, 0, MAX_PARTICIPANTS);
+        inscribe_right(PROJECT_NAME_1, PROJECT_FONT_SIZE, 0, MAX_PARTICIPANTS);
+        inscribe_right(PROJECT_NAME_2, PROJECT_FONT_SIZE, 1, MAX_PARTICIPANTS);
         inscribe_right(PARTICIPANT_1, NAMES_FONT_SIZE, 2, TOTAL_PARTICIPANTS);
         inscribe_right(PARTICIPANT_2, NAMES_FONT_SIZE, 3, TOTAL_PARTICIPANTS);
         inscribe_right(PARTICIPANT_3, NAMES_FONT_SIZE, 4, TOTAL_PARTICIPANTS);
