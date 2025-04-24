@@ -1,8 +1,8 @@
 #!/bin/bash
 
 base_path='/Users/douglasdejesus/Downloads/mana-master/svg/'
-main_symbols=('w' 'u')
-type_symbols=('instant' 'planeswalker')
+main_symbols=('w' 'u' 'b' 'r' 'g')
+type_symbols=('artifact' 'creature' 'enchantment' 'instant' 'planeswalker' 'sorcery')
 
 i=0 
 
