@@ -76,7 +76,7 @@ module BlankWithBevel() {
 
 module MainSymbol() {
     translate([(frame_width - main_symbol_size) / 2, (frame_height - main_symbol_size) / 2,0])
-    linear_extrude(height = thickness)
+    linear_extrude(height = thickness - main_symbol_thickness_buffer)
     resize([0, main_symbol_size, 0], auto=true)
     offset(r = 0.01)
     import(main_symbol_filepath);
