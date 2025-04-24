@@ -1,8 +1,9 @@
 $fn = 36;
 
-main_symbol_filepath = "C:/Users/dougl/Documents/Downloads/mana-master/mana-master/svg/w.svg";
-type_symbol_filepath = "C:/Users/dougl/Documents/Downloads/mana-master/mana-master/svg/instant.svg";
-
+// Override these from the commandline
+main_symbol_filepath = "/Users/douglasdejesus/Downloads/mana-master/svg/b.svg";
+type_symbol_filepath = "/Users/douglasdejesus/Downloads/mana-master/svg/instant.svg";
+tab_side = 1;
 
 frame_width = 68;
 frame_height = 85;
@@ -46,20 +47,27 @@ module InnerCorner(height, radius) {
     }
 }
 
-module CardAndTabBlank(frame_width, frame_height, tab_height , thickness, bevel) {
+module CardAndTabBlank(frame_width, frame_height, tab_height , thickness, bevel, tab_side) {
     RoundRect(frame_width, frame_height, thickness, bevel);
 
     // tab
-    translate([0,frame_height - 2 * bevel,0])
-        RoundRect(frame_width / 2, tab_height + 2 * bevel, thickness, bevel );
-    translate([frame_width / 2, frame_height, 0]) 
-        InnerCorner(thickness, bevel / 2);
+    translate(tab_side == 1 ? 
+          [frame_width / 2, frame_height - 2 * bevel,0]
+        : [0, frame_height - 2 * bevel, 0]
+    
+    )
+    RoundRect(frame_width / 2, tab_height + 2 * bevel, thickness, bevel );
+    
+
+    translate([frame_width / 2, frame_height, tab_side == 1 ? thickness : 0]) 
+        rotate([0,tab_side == 1 ? 180 : 0,0])
+    InnerCorner(thickness, bevel / 2);
 }
 
 module BlankWithBevel() {
     difference()
     {
-        CardAndTabBlank(frame_width, frame_height, tab_height , thickness, bevel);
+        CardAndTabBlank(frame_width, frame_height, tab_height , thickness, bevel, tab_side);
 
         translate([border, border, background_thickness ]) 
         RoundRect(frame_width - 2 * border, frame_height - 2 *border, thickness, bevel / 2);
@@ -68,21 +76,23 @@ module BlankWithBevel() {
 
 module MainSymbol() {
     translate([(frame_width - main_symbol_size) / 2, (frame_height - main_symbol_size) / 2,0])
-    resize([main_symbol_size , main_symbol_size , thickness - main_symbol_thickness_buffer])
-    linear_extrude(height = thickness)    
-        offset(r=0.01) import(main_symbol_filepath);
+    linear_extrude(height = thickness)
+    resize([0, main_symbol_size, 0], auto=true)
+    offset(r = 0.01)
+    import(main_symbol_filepath);
 }
 
 module TypeSymbol() {
-    translate([border, frame_height - border / 2, 0])
-    linear_extrude(height = thickness)    
+    translate([tab_side == 1 ? frame_width - 3 * border : border, 
+        frame_height - border / 2, 0])
+    #linear_extrude(height = thickness)    
     import(type_symbol_filepath);
 }
 
 module CardDivider() {
     difference() {
         BlankWithBevel();
-        #TypeSymbol();
+        TypeSymbol();
     }
     
     MainSymbol();
